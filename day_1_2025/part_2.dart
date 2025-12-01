@@ -1,4 +1,5 @@
 import 'dart:io';
+
 void main() async {
   final file = File("passwords.txt");
   final rotations = await file.readAsLines();
@@ -8,16 +9,17 @@ void main() async {
 
   for (String rotation in rotations) {
     String dir = rotation[0];
-    int number = int.parse(rotation.substring(1));
+    int steps = int.parse(rotation.substring(1));
 
-    if (dir == 'R') {
-      startPosition = (startPosition + number) % 100;
-    } else {
-      startPosition = (startPosition - number) % 100;
+    for (int i = 0; i < steps; i++) {
+      if (dir == 'R')
+        startPosition = (startPosition + 1) % 100;
+      else
+        startPosition = (startPosition - 1) % 100;
+
       if (startPosition < 0) startPosition += 100;
-    }
-    if (startPosition == 0) {
-      count++;
+
+      if (startPosition == 0) count++;
     }
   }
   print("Password = $count");
